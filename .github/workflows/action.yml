@@ -33,6 +33,11 @@ jobs:
         with:
           toolchain: stable
           override: true
+      - name: Rust | Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          prefix-key: "rust-cache"
+          shared-key: "benchmark"
       - name: Cargo Bench
         run:  cargo bench --jobs 1 --bench bench -- --output-format bencher | tee output.txt
       - name: Download previous benchmark data

@@ -66,15 +66,18 @@ jobs:
           path: ./cache
           key: ${{ runner.os }}-benchmark
       - name: Store benchmark result
-        if: github.ref == 'refs/heads/master'
-        uses: benchmark-action/github-action-benchmark@v1
+        uses: benchmark-action/github-action-benchmark@v1.18.0
         with:
           tool: 'cargo'
           output-file-path: output.txt
           github-token: ${{ secrets.GITHUB_TOKEN }}
           summary-always: true
+          skip-fetch-gh-pages: "true"
           alert-threshold: "120%"
-          auto-push: true # push to gh-pages/dev/bench
+          fail-on-alert: true
+          external-data-json-path: ./cache/benchmark-data.json
+          save-data-file : false
+          auto-push: false
 
 
   deploy:

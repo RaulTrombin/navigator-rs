@@ -381,6 +381,8 @@ impl Navigator {
         self.bmp.zero().unwrap();
 
         self.led.set_led_all(false);
+
+        std::thread::sleep(std::time::Duration::from_secs(1));
     }
 
     pub fn self_test(&mut self) -> bool {
@@ -568,7 +570,7 @@ impl Navigator {
     ///     nav.set_pwm_freq_hz(i);
     ///     nav.set_pwm_channel_value(PwmChannel::Ch1, 2048); // sets the duty cycle to 50%
     ///     i = i + 10.0;
-    ///     sleep(Duration::from_millis(1000));
+    ///     sleep(Duration::from_millis(2000));
     /// }
     /// ```
     pub fn set_pwm_freq_hz(&mut self, mut freq: f32) {

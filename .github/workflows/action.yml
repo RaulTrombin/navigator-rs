@@ -41,6 +41,42 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./target/doc
 
+
+  bench:
+    needs: quick-tests
+    runs-on: self-hosted
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions-rs/toolchain@v1.0.6
+        with:
+          toolchain: stable
+          override: true
+      - name: Rust | Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          prefix-key: "rust-cache"
+          shared-key: "benchmark"
+      - name: Cargo Bench
+        run:  cargo bench --jobs 1 --bench bench -- --output-format bencher | tee output.txt
+      - name: Download previous benchmark data
+        uses: actions/cache@v1
+        with:
+          path: ./cache
+          key: ${{ runner.os }}-benchmark
+      - name: Store benchmark result
+        if: github.ref == 'refs/heads/master'
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: 'cargo'
+          output-file-path: output.txt
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          summary-always: true
+          alert-threshold: "120%"
+          auto-push: true # push to gh-pages/dev/bench
+
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -48,7 +84,7 @@ jobs:
     steps:
       - name: Checkout to repository
         uses: actions/checkout@v2
-      - name: Setup Rust toolchain 
+      - name: Setup Rust toolchain
         uses: actions-rs/toolchain@v1.0.7
         with:
           toolchain: stable
@@ -57,7 +93,7 @@ jobs:
         run: cargo install cargo-bump --force
       - name: Modify version with tag
         run: cargo bump ${{ github.ref_name }}
-      - name: Automatic commit for crate version upgrade 
+      - name: Automatic commit for crate version upgrade
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: master

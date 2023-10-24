@@ -11,34 +11,34 @@ fn navigator_benchmark(c: &mut Criterion) {
     }}
 
     // Navigator creation benchmark
-    c.bench_function("new", |b| b.iter(|| Navigator::new()));
+    // c.bench_function("new", |b| b.iter(|| Navigator::new()));
 
-    // Benchmark Inputs
-    bench!(init());
+    // // Benchmark Inputs
+    // bench!(init());
 
-    bench!(read_adc(AdcChannel::Ch0));
-    bench!(read_adc_all());
+    // bench!(read_adc(AdcChannel::Ch0));
+    // bench!(read_adc_all());
 
-    bench!(read_accel());
-    bench!(read_gyro());
-    bench!(read_mag());
+    // bench!(read_accel());
+    // bench!(read_gyro());
+    // bench!(read_mag());
 
-    bench!(read_pressure());
-    bench!(read_temperature());
+    // bench!(read_pressure());
+    // bench!(read_temperature());
 
-    bench!(read_all());
+    // bench!(read_all());
 
-    // Benchmark Outputs
-    bench!(pwm_enable(false));
-    bench!(set_pwm_channel_value(PwmChannel::Ch1, 100));
-    bench!(set_pwm_freq_hz(60.0));
-    bench!(set_pwm_freq_prescale(100));
+    // // Benchmark Outputs
+    // bench!(pwm_enable(false));
+    // bench!(set_pwm_channel_value(PwmChannel::Ch1, 100));
+    // bench!(set_pwm_freq_hz(60.0));
+    // bench!(set_pwm_freq_prescale(100));
 
-    bench!(set_neopixel(&[[0, 0, 0]]));
+    // bench!(set_neopixel(&[[0, 0, 0]]));
 
-    bench!(set_led(UserLed::Led1, false));
+    // bench!(set_led(UserLed::Led1, false));
     bench!(set_led_toggle(UserLed::Led1));
-    bench!(get_led(UserLed::Led1));
+    // bench!(get_led(UserLed::Led1));
 }
 
 criterion_group!(benches, navigator_benchmark);

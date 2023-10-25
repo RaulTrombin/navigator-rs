@@ -60,11 +60,24 @@ jobs:
           shared-key: "benchmark"
       - name: Cargo Bench
         run:  cargo bench --jobs 1 --bench bench -- --output-format bencher | tee output.txt
-      - name: Download previous benchmark data
-        uses: actions/cache@v1
-        with:
-          path: ./cache
-          key: ${{ runner.os }}-benchmark
+      # - name: Download previous benchmark data
+      #   uses: actions/cache@v1
+      #   with:
+      #     path: ./cache
+      #     key: ${{ runner.os }}-benchmark
+      # - name: Store benchmark result
+      #   uses: benchmark-action/github-action-benchmark@v1.18.0
+      #   with:
+      #     tool: 'cargo'
+      #     output-file-path: output.txt
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     summary-always: true
+      #     skip-fetch-gh-pages: "true"
+      #     alert-threshold: "120%"
+      #     fail-on-alert: true
+      #     external-data-json-path: ./cache/benchmark-data.json
+      #     save-data-file : false
+      #     auto-push: false
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1.18.0
         with:
@@ -72,12 +85,12 @@ jobs:
           output-file-path: output.txt
           github-token: ${{ secrets.GITHUB_TOKEN }}
           summary-always: true
-          skip-fetch-gh-pages: "true"
+          # skip-fetch-gh-pages: "true"
           alert-threshold: "120%"
           fail-on-alert: true
-          external-data-json-path: ./cache/benchmark-data.json
-          save-data-file : false
-          auto-push: false
+          # external-data-json-path: ./cache/benchmark-data.json
+          # save-data-file : false
+          auto-push: true
 
 
   deploy:

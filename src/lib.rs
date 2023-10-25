@@ -666,6 +666,7 @@ impl Navigator {
     /// }
     /// ```
     pub fn set_led_toggle(&mut self, select: UserLed) {
+        std::thread::sleep(std::time::Duration::from_secs(1));
         self.led.set_led_toggle(select)
     }
 

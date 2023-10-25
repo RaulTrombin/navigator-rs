@@ -90,7 +90,7 @@ jobs:
           fail-on-alert: true
           # external-data-json-path: ./cache/benchmark-data.json
           # save-data-file : false
-          auto-push: true
+          auto-push: false
 
 
   deploy:

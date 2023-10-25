@@ -76,7 +76,7 @@ jobs:
           alert-threshold: "120%"
           fail-on-alert: true
           external-data-json-path: ./cache/benchmark-data.json
-          save-data-file : true
+          save-data-file : false
           auto-push: false
 
 

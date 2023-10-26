@@ -1,5 +1,5 @@
 {
-  "lastUpdate": 1698348102868,
+  "lastUpdate": 1698349457916,
   "repoUrl": "https://github.com/RaulTrombin/navigator-rs",
   "entries": {
     "Benchmark": [
@@ -16,25 +16,121 @@
             "username": "RaulTrombin"
           },
           "distinct": true,
-          "id": "55332a06fa59e58e43e47b3072960779f285367b",
-          "message": "test- reduce tests",
-          "timestamp": "2023-10-26T14:28:58-03:00",
-          "tree_id": "74618f4a8b7c337f7d55d11b22322ed5f22b4972",
-          "url": "https://github.com/RaulTrombin/navigator-rs/commit/55332a06fa59e58e43e47b3072960779f285367b"
+          "id": "e6f9f168b1aeb4818057201fd8bd4f2684e070b7",
+          "message": "github: action: Save cache data to gh-page",
+          "timestamp": "2023-10-26T16:33:00-03:00",
+          "tree_id": "e9094097ee66be802640112b1c8f579d19717cb9",
+          "url": "https://github.com/RaulTrombin/navigator-rs/commit/e6f9f168b1aeb4818057201fd8bd4f2684e070b7"
         },
-        "date": 1698348102848,
+        "date": 1698349457896,
         "tool": "cargo",
         "benches": [
           {
             "name": "new",
-            "value": 191186789,
-            "range": "± 162658",
+            "value": 191102777,
+            "range": "± 408000",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "init",
+            "value": 328940962,
+            "range": "± 1144308",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_adc",
+            "value": 3102598,
+            "range": "± 16912",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_adc_all",
+            "value": 12396353,
+            "range": "± 39585",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_accel",
+            "value": 220273,
+            "range": "± 9171",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_gyro",
+            "value": 219577,
+            "range": "± 10500",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_mag",
+            "value": 102390120,
+            "range": "± 39658413",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_pressure",
+            "value": 1332799,
+            "range": "± 9917",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_temperature",
+            "value": 667572,
+            "range": "± 3094",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_all",
+            "value": 17095996,
+            "range": "± 114196",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "pwm_enable",
+            "value": 40044,
+            "range": "± 2673",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_pwm_channel_value",
+            "value": 108050,
+            "range": "± 6098",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_pwm_freq_hz",
+            "value": 136210,
+            "range": "± 514",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_pwm_freq_prescale",
+            "value": 136205,
+            "range": "± 858",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_neopixel",
+            "value": 260362,
+            "range": "± 7012",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_led",
+            "value": 39499,
+            "range": "± 3661",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_led_toggle",
+            "value": 85569,
+            "range": "± 8785",
             "unit": "ns/iter"
           },
           {
             "name": "get_led",
-            "value": 45019,
-            "range": "± 2887",
+            "value": 45300,
+            "range": "± 4276",
             "unit": "ns/iter"
           }
         ]
@@ -52,25 +148,121 @@
             "username": "RaulTrombin"
           },
           "distinct": true,
-          "id": "55332a06fa59e58e43e47b3072960779f285367b",
-          "message": "test- reduce tests",
-          "timestamp": "2023-10-26T14:28:58-03:00",
-          "tree_id": "74618f4a8b7c337f7d55d11b22322ed5f22b4972",
-          "url": "https://github.com/RaulTrombin/navigator-rs/commit/55332a06fa59e58e43e47b3072960779f285367b"
+          "id": "e6f9f168b1aeb4818057201fd8bd4f2684e070b7",
+          "message": "github: action: Save cache data to gh-page",
+          "timestamp": "2023-10-26T16:33:00-03:00",
+          "tree_id": "e9094097ee66be802640112b1c8f579d19717cb9",
+          "url": "https://github.com/RaulTrombin/navigator-rs/commit/e6f9f168b1aeb4818057201fd8bd4f2684e070b7"
         },
-        "date": 1698348102848,
+        "date": 1698349457896,
         "tool": "cargo",
         "benches": [
           {
             "name": "new",
-            "value": 191186789,
-            "range": "± 162658",
+            "value": 191102777,
+            "range": "± 408000",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "init",
+            "value": 328940962,
+            "range": "± 1144308",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_adc",
+            "value": 3102598,
+            "range": "± 16912",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_adc_all",
+            "value": 12396353,
+            "range": "± 39585",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_accel",
+            "value": 220273,
+            "range": "± 9171",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_gyro",
+            "value": 219577,
+            "range": "± 10500",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_mag",
+            "value": 102390120,
+            "range": "± 39658413",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_pressure",
+            "value": 1332799,
+            "range": "± 9917",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_temperature",
+            "value": 667572,
+            "range": "± 3094",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_all",
+            "value": 17095996,
+            "range": "± 114196",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "pwm_enable",
+            "value": 40044,
+            "range": "± 2673",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_pwm_channel_value",
+            "value": 108050,
+            "range": "± 6098",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_pwm_freq_hz",
+            "value": 136210,
+            "range": "± 514",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_pwm_freq_prescale",
+            "value": 136205,
+            "range": "± 858",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_neopixel",
+            "value": 260362,
+            "range": "± 7012",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_led",
+            "value": 39499,
+            "range": "± 3661",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_led_toggle",
+            "value": 85569,
+            "range": "± 8785",
             "unit": "ns/iter"
           },
           {
             "name": "get_led",
-            "value": 45019,
-            "range": "± 2887",
+            "value": 45300,
+            "range": "± 4276",
             "unit": "ns/iter"
           }
         ]

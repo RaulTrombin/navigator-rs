@@ -1,5 +1,5 @@
 {
-  "lastUpdate": 1698349457916,
+  "lastUpdate": 1698349965626,
   "repoUrl": "https://github.com/RaulTrombin/navigator-rs",
   "entries": {
     "Benchmark": [
@@ -263,6 +263,270 @@
             "name": "get_led",
             "value": 45300,
             "range": "± 4276",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "raulvtrombin@gmail.com",
+            "name": "Raul Victor Trombin",
+            "username": "RaulTrombin"
+          },
+          "committer": {
+            "email": "raulvtrombin@gmail.com",
+            "name": "Raul Victor Trombin",
+            "username": "RaulTrombin"
+          },
+          "distinct": true,
+          "id": "678a5715166ccb0413e42077a7c0e05ec7c8a9e6",
+          "message": "github: action: Load cache from previous benchmarks",
+          "timestamp": "2023-10-26T16:34:21-03:00",
+          "tree_id": "63f1c5d4a8200444662c264431dbbb7be3cc0572",
+          "url": "https://github.com/RaulTrombin/navigator-rs/commit/678a5715166ccb0413e42077a7c0e05ec7c8a9e6"
+        },
+        "date": 1698349965615,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "new",
+            "value": 191087626,
+            "range": "± 346907",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "init",
+            "value": 328775693,
+            "range": "± 643296",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_adc",
+            "value": 3105922,
+            "range": "± 18418",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_adc_all",
+            "value": 12425102,
+            "range": "± 59721",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_accel",
+            "value": 221721,
+            "range": "± 8269",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_gyro",
+            "value": 220999,
+            "range": "± 10923",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_mag",
+            "value": 102381959,
+            "range": "± 40429473",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_pressure",
+            "value": 1337284,
+            "range": "± 5948",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_temperature",
+            "value": 668882,
+            "range": "± 799",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_all",
+            "value": 17065464,
+            "range": "± 79452",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "pwm_enable",
+            "value": 39932,
+            "range": "± 4496",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_pwm_channel_value",
+            "value": 108268,
+            "range": "± 4367",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_pwm_freq_hz",
+            "value": 141938,
+            "range": "± 8089",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_pwm_freq_prescale",
+            "value": 142010,
+            "range": "± 6171",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_neopixel",
+            "value": 263148,
+            "range": "± 1856",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_led",
+            "value": 39468,
+            "range": "± 1825",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_led_toggle",
+            "value": 86067,
+            "range": "± 3843",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "get_led",
+            "value": 45660,
+            "range": "± 2605",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "raulvtrombin@gmail.com",
+            "name": "Raul Victor Trombin",
+            "username": "RaulTrombin"
+          },
+          "committer": {
+            "email": "raulvtrombin@gmail.com",
+            "name": "Raul Victor Trombin",
+            "username": "RaulTrombin"
+          },
+          "distinct": true,
+          "id": "678a5715166ccb0413e42077a7c0e05ec7c8a9e6",
+          "message": "github: action: Load cache from previous benchmarks",
+          "timestamp": "2023-10-26T16:34:21-03:00",
+          "tree_id": "63f1c5d4a8200444662c264431dbbb7be3cc0572",
+          "url": "https://github.com/RaulTrombin/navigator-rs/commit/678a5715166ccb0413e42077a7c0e05ec7c8a9e6"
+        },
+        "date": 1698349965615,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "new",
+            "value": 191087626,
+            "range": "± 346907",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "init",
+            "value": 328775693,
+            "range": "± 643296",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_adc",
+            "value": 3105922,
+            "range": "± 18418",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_adc_all",
+            "value": 12425102,
+            "range": "± 59721",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_accel",
+            "value": 221721,
+            "range": "± 8269",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_gyro",
+            "value": 220999,
+            "range": "± 10923",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_mag",
+            "value": 102381959,
+            "range": "± 40429473",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_pressure",
+            "value": 1337284,
+            "range": "± 5948",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_temperature",
+            "value": 668882,
+            "range": "± 799",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "read_all",
+            "value": 17065464,
+            "range": "± 79452",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "pwm_enable",
+            "value": 39932,
+            "range": "± 4496",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_pwm_channel_value",
+            "value": 108268,
+            "range": "± 4367",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_pwm_freq_hz",
+            "value": 141938,
+            "range": "± 8089",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_pwm_freq_prescale",
+            "value": 142010,
+            "range": "± 6171",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_neopixel",
+            "value": 263148,
+            "range": "± 1856",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_led",
+            "value": 39468,
+            "range": "± 1825",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "set_led_toggle",
+            "value": 86067,
+            "range": "± 3843",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "get_led",
+            "value": 45660,
+            "range": "± 2605",
             "unit": "ns/iter"
           }
         ]

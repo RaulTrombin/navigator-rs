@@ -22,6 +22,35 @@ jobs:
         run: cargo test --verbose -- --nocapture
       - name: Build
         run: cargo build
+  bench:
+    needs: quick-tests
+    runs-on: self-hosted
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions-rs/toolchain@v1.0.6
+      with:
+        toolchain: stable
+        override: true
+    - name: Rust | Cache
+      uses: Swatinem/rust-cache@v2
+      with:
+        prefix-key: "rust-cache"
+        shared-key: "benchmark"
+    - name: Cargo Bench
+      run:  cargo bench --jobs 1 --bench bench -- --output-format bencher | tee output.txt
+    - name: Compare results & store on webpage history
+      if: github.ref == 'refs/heads/master'
+      uses: benchmark-action/github-action-benchmark@v1.18.0
+      with:
+        tool: 'cargo'
+        output-file-path: output.txt
+        summary-always: true
+        alert-threshold: "110%"
+        fail-on-alert: true
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        auto-push: true
 
   build:
     needs: quick-tests

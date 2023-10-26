@@ -51,6 +51,22 @@ jobs:
         fail-on-alert: true
         github-token: ${{ secrets.GITHUB_TOKEN }}
         auto-push: true
+    - name: Compare results & store cached results
+      uses: benchmark-action/github-action-benchmark@v1.18.0
+      with:
+        tool: 'cargo'
+        output-file-path: output.txt
+        summary-always: true
+        alert-threshold: "110%"
+        fail-on-alert: true
+        external-data-json-path: ./cache/benchmark-data.json
+        skip-fetch-gh-pages: "true"
+    - name: Save benchmark JSON
+      if: github.ref == 'refs/heads/master'
+      uses: actions/cache/save@v3
+      with:
+        path: ./cache/benchmark-data.json
+        key: ${{ runner.os }}-benchmark
 
   build:
     needs: quick-tests

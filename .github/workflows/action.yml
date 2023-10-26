@@ -38,6 +38,12 @@ jobs:
       with:
         prefix-key: "rust-cache"
         shared-key: "benchmark"
+    - name: Download previous benchmark data
+      uses: actions/cache/restore@v3
+      with:
+        fail-on-cache-miss: true
+        path: ./cache/benchmark-data.json
+        key: ${{ runner.os }}-benchmark
     - name: Cargo Bench
       run:  cargo bench --jobs 1 --bench bench -- --output-format bencher | tee output.txt
     - name: Compare results & store on webpage history

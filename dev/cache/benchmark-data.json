@@ -1,0 +1,80 @@
+{
+  "lastUpdate": 1698348102868,
+  "repoUrl": "https://github.com/RaulTrombin/navigator-rs",
+  "entries": {
+    "Benchmark": [
+      {
+        "commit": {
+          "author": {
+            "email": "raulvtrombin@gmail.com",
+            "name": "Raul Victor Trombin",
+            "username": "RaulTrombin"
+          },
+          "committer": {
+            "email": "raulvtrombin@gmail.com",
+            "name": "Raul Victor Trombin",
+            "username": "RaulTrombin"
+          },
+          "distinct": true,
+          "id": "55332a06fa59e58e43e47b3072960779f285367b",
+          "message": "test- reduce tests",
+          "timestamp": "2023-10-26T14:28:58-03:00",
+          "tree_id": "74618f4a8b7c337f7d55d11b22322ed5f22b4972",
+          "url": "https://github.com/RaulTrombin/navigator-rs/commit/55332a06fa59e58e43e47b3072960779f285367b"
+        },
+        "date": 1698348102848,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "new",
+            "value": 191186789,
+            "range": "± 162658",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "get_led",
+            "value": 45019,
+            "range": "± 2887",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "raulvtrombin@gmail.com",
+            "name": "Raul Victor Trombin",
+            "username": "RaulTrombin"
+          },
+          "committer": {
+            "email": "raulvtrombin@gmail.com",
+            "name": "Raul Victor Trombin",
+            "username": "RaulTrombin"
+          },
+          "distinct": true,
+          "id": "55332a06fa59e58e43e47b3072960779f285367b",
+          "message": "test- reduce tests",
+          "timestamp": "2023-10-26T14:28:58-03:00",
+          "tree_id": "74618f4a8b7c337f7d55d11b22322ed5f22b4972",
+          "url": "https://github.com/RaulTrombin/navigator-rs/commit/55332a06fa59e58e43e47b3072960779f285367b"
+        },
+        "date": 1698348102848,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "new",
+            "value": 191186789,
+            "range": "± 162658",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "get_led",
+            "value": 45019,
+            "range": "± 2887",
+            "unit": "ns/iter"
+          }
+        ]
+      }
+    ]
+  }
+}

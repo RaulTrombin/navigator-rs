@@ -780,7 +780,7 @@ impl Navigator {
         self.bmp.temperature_celsius().unwrap()
     }
 
-    /// Reads the altitude based on pressure values measured by BMP280 of [`Navigator`].
+    /// Read the altitude based on pressure values measured by BMP280 of [`Navigator`].
     ///
     /// Measurements in \[m\]
     ///

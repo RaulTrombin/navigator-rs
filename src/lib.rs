@@ -308,25 +308,28 @@ impl NavigatorBuilder {
 
         //Define CS2 pin ICM-20602
         let cs_2 = Pin::new(16);
-        cs_2.export().expect("Error: Error during CS2 export");
-        Delay {}.delay_ms(30_u16);
-        cs_2.set_direction(Direction::High)
-            .expect("Error: Setting CS2 pin as output");
+
+        retry::retry(retry::delay::Fixed::from_millis(30).take(1), || {
+            cs_2.set_direction(Direction::High)
+        })
+        .expect("Error: Setting CS2 pin as output");
 
         //not using yet, define CS1 pin for MMC5983
         let cs_1 = Pin::new(17);
-        cs_1.export().expect("Error: Error during CS1 export");
-        Delay {}.delay_ms(30_u16);
-        cs_1.set_direction(Direction::High)
-            .expect("Error: Setting CS2 pin as output");
+
+        retry::retry(retry::delay::Fixed::from_millis(30).take(1), || {
+            cs_1.set_direction(Direction::High)
+        })
+        .expect("Error: Setting CS1 pin as output");
 
         //Define pwm OE_Pin - PWM initialize disabled
         let oe_pin = Pin::new(26);
         oe_pin.export().expect("Error: Error during oe_pin export");
-        Delay {}.delay_ms(30_u16);
-        oe_pin
-            .set_direction(Direction::High)
-            .expect("Error: Setting oe_pin pin as output");
+
+        retry::retry(retry::delay::Fixed::from_millis(30).take(1), || {
+            oe_pin.set_direction(Direction::High)
+        })
+        .expect("Error: Setting oe_pin pin as output");
 
         let imu = imu_Builder::new_spi(spi, cs_2);
 

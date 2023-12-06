@@ -59,7 +59,8 @@ jobs:
 
   bench:
     needs: build
-    runs-on: self-hosted
+    if: ${{ github.repository_owner == 'bluerobotics' }}
+    runs-on: raspbian-armv7-kernel-5.10.33
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
     steps:

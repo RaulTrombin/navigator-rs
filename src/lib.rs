@@ -162,7 +162,7 @@ pub struct Navigator {
     pwm: Pwm,
     bmp: Bmp280,
     adc: Ads1x1x<I2cInterface<I2cdev>, Ads1115, Resolution16Bit, ads1x1x::mode::OneShot>,
-    imu: ICM20689<SpiInterface<rppal::spi::Spi, Pin>>,
+    imu: ICM20689<SpiInterface<rppal::spi::Spi, rppal::gpio::OutputPin>>,
     mag: Ak09915<I2cdev>,
     led: Led,
     neopixel: Strip,
@@ -300,22 +300,13 @@ impl NavigatorBuilder {
         // Clear RGB led strip before starting using it
         neopixel.clear();
 
-        let mut spi = rppal::spi::Spi::new(rppal::spi::Bus::Spi1, rppal::spi::SlaveSelect::Ss2, 1000000, rppal::spi::Mode::Mode0).unwrap();
+        let spi = rppal::spi::Spi::new(rppal::spi::Bus::Spi1, rppal::spi::SlaveSelect::Ss2, 1000000, rppal::spi::Mode::Mode0).unwrap();
 
+        let mut cs_2 = rppal::gpio::Gpio::new().unwrap().get(18).unwrap().into_output();
+        cs_2.set_high();
 
-        //Define CS2 pin ICM-20602
-        let cs_2 = Pin::new(16);
-        cs_2.export().expect("Error: Error during CS2 export");
-        Delay {}.delay_ms(30_u16);
-        cs_2.set_direction(Direction::High)
-            .expect("Error: Setting CS2 pin as output");
-
-        //not using yet, define CS1 pin for MMC5983
-        let cs_1 = Pin::new(17);
-        cs_1.export().expect("Error: Error during CS1 export");
-        Delay {}.delay_ms(30_u16);
-        cs_1.set_direction(Direction::High)
-            .expect("Error: Setting CS2 pin as output");
+        let mut cs_1 = rppal::gpio::Gpio::new().unwrap().get(17).unwrap().into_output();
+        cs_1.set_high();
 
         //Define pwm OE_Pin - PWM initialize disabled
         let oe_pin = Pin::new(26);

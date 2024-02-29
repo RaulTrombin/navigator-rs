@@ -15,6 +15,7 @@ use linux_embedded_hal::spidev::{self, SpidevOptions};
 use linux_embedded_hal::sysfs_gpio::Direction;
 use linux_embedded_hal::I2cdev;
 use linux_embedded_hal::{Delay, Pin, Spidev};
+use rppal;
 use log::{info, warn};
 use nb::block;
 use pwm_pca9685::{Address as pwm_Address, Pca9685};
@@ -161,7 +162,7 @@ pub struct Navigator {
     pwm: Pwm,
     bmp: Bmp280,
     adc: Ads1x1x<I2cInterface<I2cdev>, Ads1115, Resolution16Bit, ads1x1x::mode::OneShot>,
-    imu: ICM20689<SpiInterface<Spidev, Pin>>,
+    imu: ICM20689<SpiInterface<rppal::spi::Spi, Pin>>,
     mag: Ak09915<I2cdev>,
     led: Led,
     neopixel: Strip,
@@ -299,14 +300,8 @@ impl NavigatorBuilder {
         // Clear RGB led strip before starting using it
         neopixel.clear();
 
-        let mut spi = Spidev::open("/dev/spidev1.0").expect("Error: Failed during setting up SPI");
-        let options = SpidevOptions::new()
-            .bits_per_word(8)
-            .max_speed_hz(10_000_000)
-            .mode(spidev::SpiModeFlags::SPI_MODE_0)
-            .build();
-        spi.configure(&options)
-            .expect("Error: Failed to configure SPI");
+        let mut spi = rppal::spi::Spi::new(rppal::spi::Bus::Spi1, rppal::spi::SlaveSelect::Ss2, 1000000, rppal::spi::Mode::Mode0).unwrap();
+
 
         //Define CS2 pin ICM-20602
         let cs_2 = Pin::new(16);

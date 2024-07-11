@@ -360,6 +360,10 @@ impl Navigator {
         }
     }
 
+    pub fn upgrade_neopixel_amount(&mut self, amount_of_leds : usize)  {
+        self.neopixel.leds = vec![sk6812_rpi::led::Led::new(); amount_of_leds];
+    }
+
     pub fn init(&mut self) {
         self.self_test();
         //Initialize devices on navigator's default settings,
@@ -850,7 +854,10 @@ impl Navigator {
     /// This will set the first LED to blue, second to green, and third to red.
     pub fn set_neopixel(&mut self, array: &[[u8; 3]]) {
         for (index, value) in array.iter().enumerate() {
-            self.neopixel.leds[index] = StripLed::from_rgb(value[0], value[1], value[2]);
+            self.neopixel.fill(StripLed::from_rgb(value[0], value[1], value[2]));
+            // self.neopixel.leds[index] = StripLed::from_rgb(value[0], value[1], value[2]);
+            dbg!("here {}", index);
+            dbg!("red {}, green {}, blue {}", value[0], value[1], value[2]);
         }
         self.neopixel.update().unwrap();
     }
@@ -877,7 +884,7 @@ impl Navigator {
     /// This will set the first LED to blue, second to green, third to red and fourth to white.
     pub fn set_neopixel_rgbw(&mut self, array: &[[u8; 4]]) {
         for (index, value) in array.iter().enumerate() {
-            self.neopixel.leds[index] = StripLed::from_rgbw(value[0], value[1], value[2], value[3]);
+            self.neopixel.fill(StripLed::from_rgbw(value[0], value[1], value[2], value[3]));
         }
         self.neopixel.update().unwrap();
     }

@@ -1,6 +1,9 @@
 name: Test all targets
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -32,32 +35,37 @@ jobs:
           toolchain: stable
       - name: Build docs
         run: cargo doc
-      - name: Move documentation
-        run: mkdir -p pages/doc && mv target/doc/* pages/doc/
-      - name: Get previous benchmark data
-        if: ${{ github.ref == 'refs/heads/master' }}
+      - name: Prepare documentation
         run: |
+          # Create temporary directory
+          mkdir -p temp_pages
+
+          # Move documentation to root of pages
+          mv target/doc/* temp_pages/
+
+          # Get previous benchmark data if on master
+          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
             echo "Fetching gh-pages branch"
             git fetch origin gh-pages
 
             echo "Checking out gh-pages branch"
             git checkout gh-pages
 
-            echo "Copying data file from gh-pages to cache"
-            mkdir -p pages/dev && cp -r dev/* pages/dev/ || { echo "Failed to copy dev folder" ; exit 1; }
+            echo "Copying dev folder to temp_pages"
+            mkdir -p temp_pages/dev && cp -r dev/* temp_pages/dev/ || { echo "Failed to copy dev folder" ; exit 1; }
 
-            echo "Checking out current previous branch"
+            echo "Checking out previous branch"
             git checkout -
+          fi
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.ref == 'refs/heads/master' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./pages
+          publish_dir: ./temp_pages
 
   bench:
     needs: build
-    if: ${{ github.repository_owner == 'bluerobotics' }}
     runs-on: raspbian-armv7-kernel-5.10.33
     steps:
     - uses: actions/checkout@master

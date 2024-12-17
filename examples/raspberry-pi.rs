@@ -1,4 +1,4 @@
-use navigator_rs::Navigator;
+use navigator_rs::{BoardVersion, Navigator, PiVersion};
 use std::thread::sleep;
 use std::time::Duration;
 
@@ -6,7 +6,12 @@ use rand::seq::SliceRandom;
 
 fn main() {
     println!("Creating your navigator module!");
-    let mut nav = Navigator::new();
+
+    let mut nav = Navigator::create()
+    .with_board_version(BoardVersion::V1)
+    .with_pi_version(PiVersion::Pi4)
+    .with_rgb_led_strip_size(8)
+    .build();
 
     println!("Setting up your navigator, ahoy!");
     nav.set_pwm_enable(true);

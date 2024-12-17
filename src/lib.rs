@@ -27,6 +27,50 @@ use led::LedController;
 use pca9685::Pca9685Device;
 use rgb::RgbController;
 
+// add docs ( difference btwen boards)
+#[derive(Debug, Clone, Copy)]
+pub enum BoardVersion {
+    V1,
+    V2,
+}
+
+// add docs ( default for now or V2 directly for 2025?)
+impl Default for BoardVersion {
+    fn default() -> Self {
+        BoardVersion::V1
+    }
+}
+
+// add docs ( explicit difference btwen overlays)
+#[derive(Debug, Clone, Copy)]
+pub enum PiVersion {
+    Pi4,
+    Pi5,
+}
+
+// add docs ( default for now or pi5 for 2025?)
+impl Default for PiVersion {
+    fn default() -> Self {
+        PiVersion::Pi4
+    }
+}
+
+pub struct NavigatorBuilder {
+    rgb_led_strip_size: usize,
+    board_version: BoardVersion,
+    pi_version: PiVersion,
+}
+
+impl Default for NavigatorBuilder {
+    fn default() -> Self {
+        Self {
+            rgb_led_strip_size: 1,
+            board_version: BoardVersion::default(),
+            pi_version: PiVersion::default(),
+        }
+    }
+}
+
 /// Set of available options to select ADC's channel.
 #[derive(Debug, Clone, Copy)]
 pub enum AdcChannel {
@@ -88,21 +132,13 @@ pub struct Navigator {
     devices: Vec<Box<dyn AnyHardware>>,
 }
 
-impl Default for Navigator {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl Navigator {
     pub fn new() -> Navigator {
-        Self::create().build_navigator_v1_pi4()
+        Self::default()
     }
 
     pub fn create() -> NavigatorBuilder {
-        NavigatorBuilder {
-            rgb_led_strip_size: 1, // There is only a single LED on the board
-        }
+        NavigatorBuilder::new()
     }
 
     // Helper methods to get devices
@@ -371,17 +407,33 @@ impl Navigator {
     }
 }
 
-pub struct NavigatorBuilder {
-    rgb_led_strip_size: usize,
+impl Default for Navigator {
+    fn default() -> Self {
+        Self::create().build()
+    }
 }
 
 impl NavigatorBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
     pub fn with_rgb_led_strip_size(mut self, size: usize) -> Self {
         self.rgb_led_strip_size = size;
         self
     }
 
-    pub fn build_navigator_v1_pi4(self) -> Navigator {
+    pub fn with_board_version(mut self, version: BoardVersion) -> Self {
+        self.board_version = version;
+        self
+    }
+
+    pub fn with_pi_version(mut self, version: PiVersion) -> Self {
+        self.pi_version = version;
+        self
+    }
+
+    fn build_common_devices(&self, i2c_bus: Option<&str>, gpiochip: Option<&str>) -> Vec<Box<dyn AnyHardware>> {
         let mut devices: Vec<Box<dyn AnyHardware>> = vec![
             Box::new(
                 Ads1115Device::builder()
@@ -394,174 +446,65 @@ impl NavigatorBuilder {
                     .expect("Failed to create Ak09915"),
             ),
             Box::new(
+                Icm20689Device::builder()
+                    .build()
+                    .expect("Failed to create Icm20689"),
+            ),
+        ];
+
+        // Navigator-specific setup ( BoardVersion enum <- link to ddocs)
+        let pressure_sensor: Box<dyn AnyHardware> = match self.board_version {
+            BoardVersion::V1 => Box::new(
                 Bmp280Device::builder()
                     .build()
                     .expect("Failed to create Bmp280"),
             ),
-            Box::new(
-                Icm20689Device::builder()
-                    .build()
-                    .expect("Failed to create Icm20689"),
-            ),
-            Box::new(
-                LeakDetector::builder()
-                    .build()
-                    .expect("Failed to create LedDetector"),
-            ),
-            Box::new(LedController::builder().build()),
-            Box::new(
-                Pca9685Device::builder()
-                    .build()
-                    .expect("Failed to create Pca9685"),
-            ),
-        ];
-
-        let rgb_device = RgbController::builder()
-            .with_led_count(self.rgb_led_strip_size)
-            .build()
-            .unwrap();
-        devices.push(Box::new(rgb_device));
-
-        Navigator { devices }
-    }
-
-    pub fn build_navigator_v2_pi4(self) -> Navigator {
-        let mut devices: Vec<Box<dyn AnyHardware>> = vec![
-            Box::new(
-                Ads1115Device::builder()
-                    .build()
-                    .expect("Failed to create Ads1115"),
-            ),
-            Box::new(
-                Ak09915Device::builder()
-                    .build()
-                    .expect("Failed to create Ak09915"),
-            ),
-            Box::new(
+            BoardVersion::V2 => Box::new(
                 Bmp390Device::builder()
                     .build()
                     .expect("Failed to create Bmp390"),
             ),
-            Box::new(
-                Icm20689Device::builder()
-                    .build()
-                    .expect("Failed to create Icm20689"),
-            ),
-            Box::new(
-                LeakDetector::builder()
-                    .build()
-                    .expect("Failed to create LedDetector"),
-            ),
-            Box::new(LedController::builder().build()),
-            Box::new(
-                Pca9685Device::builder()
-                    .build()
-                    .expect("Failed to create Pca9685"),
-            ),
-        ];
+        };
+        devices.push(pressure_sensor);
+
+        // Platform-specific setup ( PiVersion enum <- link to ddocs)
+        let mut leak_detector = LeakDetector::builder();
+        let mut led_controller = LedController::builder();
+        let mut pca9685 = Pca9685Device::builder();
+
+        if let Some(chip) = gpiochip {
+            leak_detector = leak_detector.with_gpiochip(chip);
+            led_controller = led_controller.with_gpiochip(chip);
+            pca9685 = pca9685.with_gpiochip(chip);
+        }
+
+        if let Some(bus) = i2c_bus {
+            pca9685 = pca9685.with_i2c_bus(bus);
+        }
+
+        devices.push(Box::new(leak_detector.build().expect("Failed to create LeakDetector")));
+        devices.push(Box::new(led_controller.build()));
+        devices.push(Box::new(pca9685.build().expect("Failed to create Pca9685")));
 
         let rgb_device = RgbController::builder()
             .with_led_count(self.rgb_led_strip_size)
             .build()
-            .unwrap();
+            .expect("Failed to create RgbController");
         devices.push(Box::new(rgb_device));
 
-        Navigator { devices }
+        devices
     }
 
-    pub fn build_navigator_v1_pi5(self) -> Navigator {
-        let gpiochip = "/dev/gpiochip4";
-        let devices: Vec<Box<dyn AnyHardware>> = vec![
-            Box::new(
-                Ads1115Device::builder()
-                    .build()
-                    .expect("Failed to create Ads1115"),
-            ),
-            Box::new(
-                Ak09915Device::builder()
-                    .build()
-                    .expect("Failed to create Ak09915"),
-            ),
-            Box::new(
-                Bmp280Device::builder()
-                    .build()
-                    .expect("Failed to create Bmp390"),
-            ),
-            Box::new(
-                Icm20689Device::builder()
-                    .build()
-                    .expect("Failed to create Icm20689"),
-            ),
-            Box::new(
-                LeakDetector::builder()
-                    .with_gpiochip(gpiochip)
-                    .build()
-                    .expect("Failed to create LedDetector"),
-            ),
-            Box::new(LedController::builder().with_gpiochip(gpiochip).build()),
-            Box::new(
-                Pca9685Device::builder()
-                    .with_gpiochip(gpiochip)
-                    .with_i2c_bus("/dev/i2c-3")
-                    .build()
-                    .expect("Failed to create Pca9685"),
-            ),
-            Box::new(
-                RgbController::builder()
-                    .with_led_count(self.rgb_led_strip_size)
-                    .build()
-                    .expect("Failed to create RgbController"),
-            ),
-        ];
-
-        Navigator { devices }
-    }
-
-    pub fn build_navigator_v2_pi5(self) -> Navigator {
-        let gpiochip = "/dev/gpiochip4";
-        let devices: Vec<Box<dyn AnyHardware>> = vec![
-            Box::new(
-                Ads1115Device::builder()
-                    .build()
-                    .expect("Failed to create Ads1115"),
-            ),
-            Box::new(
-                Ak09915Device::builder()
-                    .build()
-                    .expect("Failed to create Ak09915"),
-            ),
-            Box::new(
-                Bmp390Device::builder()
-                    .build()
-                    .expect("Failed to create Bmp390"),
-            ),
-            Box::new(
-                Icm20689Device::builder()
-                    .build()
-                    .expect("Failed to create Icm20689"),
-            ),
-            Box::new(
-                LeakDetector::builder()
-                    .with_gpiochip(gpiochip)
-                    .build()
-                    .expect("Failed to create LedDetector"),
-            ),
-            Box::new(LedController::builder().with_gpiochip(gpiochip).build()),
-            Box::new(
-                Pca9685Device::builder()
-                    .with_gpiochip(gpiochip)
-                    .with_i2c_bus("/dev/i2c-3")
-                    .build()
-                    .expect("Failed to create Pca9685"),
-            ),
-            Box::new(
-                RgbController::builder()
-                    .with_led_count(self.rgb_led_strip_size)
-                    .build()
-                    .expect("Failed to create RgbController"),
-            ),
-        ];
-
-        Navigator { devices }
+    pub fn build(self) -> Navigator {
+        match self.pi_version {
+            PiVersion::Pi4 => {
+                let devices = self.build_common_devices(None, None);
+                Navigator { devices }
+            }
+            PiVersion::Pi5 => {
+                let devices = self.build_common_devices(Some("/dev/i2c-3"), Some("/dev/gpiochip4"));
+                Navigator { devices }
+            }
+        }
     }
 }
